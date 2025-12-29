@@ -42,9 +42,9 @@ const apiRequest = async (
 ): Promise<Response> => {
   const token = getToken();
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string> || {}),
   };
   
   if (token) {
@@ -53,7 +53,7 @@ const apiRequest = async (
   
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
-    headers,
+    headers: headers as HeadersInit,
   });
   
   // If unauthorized, remove token and redirect to login
